@@ -1,9 +1,11 @@
 class LRU:
     def __init__(self):
-        print('ok')
+        self.cache = {}
 
     def get(self, key):
-        print('get val')
+        if key not in self.cache:
+            return -1
+        return self.cache[key]
 
     def put(self, key, value):
         print('insert/replace')

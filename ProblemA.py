@@ -13,7 +13,7 @@ class LRU:
             self.cache[key] = value
 
     def size(self):
-       print('size')
+        return len(self.cache)
 
     def max_capacity(self):
         return self.maximum

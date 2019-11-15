@@ -1,6 +1,7 @@
 class LRU:
-    def __init__(self):
+    def __init__(self, maximum):
         self.cache = {}
+        self.maximum = maximum
 
     def get(self, key):
         if key not in self.cache:
@@ -8,10 +9,11 @@ class LRU:
         return self.cache[key]
 
     def put(self, key, value):
-        print('insert/replace')
+        if self.size() < self.max_capacity():
+            self.cache[key] = value
 
     def size(self):
        print('size')
 
     def max_capacity(self):
-        print('max')
+        return self.maximum

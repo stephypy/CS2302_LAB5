@@ -1,30 +1,32 @@
-import math
-
-
 class MaxHeap:
-    def __init__(self):
+    def __init__(self, original):
+        self.original = original
         self.tree = []
         self.word_dict = {}
+        self.insert(original)
 
+    def is_empty(self):
+        return len(self.tree) == 0
+
+    # Returns the word value of the left child given the parent index
     def left_child(self, i):
         left = 2 * i + 1
         if left >= len(self.tree):
-            self.word_dict[-math.inf] = -math.inf
-            return -math.inf
+            return -1
         return self.tree[left]
 
+    # Returns the word value of the right child given the parent index
     def right_child(self, i):
         right = 2 * i + 2
         if right >= len(self.tree):
-            self.word_dict[-math.inf] = -math.inf
-            return -math.inf
+            return -1
         return self.tree[right]
 
     # Parameter: a list, adds all the contents of the list
     def insert(self, li):
-        li.sort(reverse = True)
+        # li.sort(reverse=True)
+        li.sort()
         self.populate_dict(li)
-        print(self.word_dict)
         for word in self.word_dict:
             self._inserting(word)
 
@@ -44,6 +46,7 @@ class MaxHeap:
     def lower_alphabetic(self, first, second):
         li = [first, second]
         li.sort()
+        # return first == li[0]
         return first == li[1]
 
     def percolate_up(self, i):
@@ -53,6 +56,7 @@ class MaxHeap:
         parent = self.word_dict[self.tree[parent_index]]
         curr = self.word_dict[self.tree[i]]
 
+        # Check curr index with its parent
         if parent < curr or ((parent == curr) and (self.lower_alphabetic(self.tree[i], self.tree[parent_index]))):
             self.tree[i], self.tree[parent_index] = self.tree[parent_index], self.tree[i]
 
@@ -66,21 +70,39 @@ class MaxHeap:
                 right = 2 * parent_index + 2
                 self.tree[left], self.tree[right] = self.tree[right], self.tree[left]
 
-        self.print_list()
-        self.percolate_up(parent_index)
+        self.percolate_up(i - 1)
 
-    def print_list(self):
-        for i in range(0, len(self.tree)):
-            print(self.tree[i], ':', self.word_dict[self.tree[i]])
-        print()
+    def extract(self):
+        if len(self.tree) < 1:
+            raise Exception('Invalid')
+        if len(self.tree) == 1:
+            return self.tree.pop()
+        root = self.tree[0]
+        self.tree[0] = self.tree.pop()
+        self.percolate_up(len(self.tree) - 1)
+        return root
+
+
+def print_list(heap):
+    original = heap.original
+    lst = heapsort(original, heap.tree)
+    for word in lst:
+        print(word, ':', heap.word_dict[word])
+
+
+def heapsort(original, lst):
+    heap_copy = MaxHeap(original)
+    i = 0
+    while not heap_copy.is_empty() and i < len(lst):
+        lst[i] = heap_copy.extract()
+        i += 1
+    return lst
 
 
 def main():
     li = ['sweet', 'dog', 'umbrella', 'sweet', 'hot', 'hat', 'paper', 'gadget', 'paper', 'paper', 'hot', 'dog', 'hat']
-    heap = MaxHeap()
-    heap.insert(li)
-    print('======')
-    heap.print_list()
+    heap = MaxHeap(li)
+    print_list(heap)
 
 
 main()

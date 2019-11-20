@@ -46,8 +46,8 @@ class MaxHeap:
     def lower_alphabetic(self, first, second):
         li = [first, second]
         li.sort()
-        # return first == li[0]
-        return first == li[1]
+        # return first == li[1]
+        return first == li[0]
 
     def percolate_up(self, i):
         if i == 0:

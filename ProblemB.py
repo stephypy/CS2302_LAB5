@@ -22,20 +22,23 @@ class MaxHeap:
 
     # Parameter: a list, adds all the contents of the list
     def insert(self, li):
-        li.sort()
-        for word in li:
-            self._insert(word)
+        li.sort(reverse = True)
+        self.populate_dict(li)
+        print(self.word_dict)
+        for word in self.word_dict:
+            self._inserting(word)
 
-    # Parameter: one word. adds it to the heap
-    def _insert(self, word):
-        if word in self.tree:
-            self.word_dict[word] += 1
-            i = self.tree.index(word)
-            self.percolate_up(len(self.tree) - 1)
-        else:
-            self.tree.append(word)
-            self.word_dict[word] = 1
-            self.percolate_up(len(self.tree) - 1)
+    def _inserting(self, word):
+        self.tree.append(word)
+        self.percolate_up(len(self.tree) - 1)
+
+    # Populates the dictionary
+    def populate_dict(self, li):
+        for word in li:
+            if word in self.word_dict:
+                self.word_dict[word] += 1
+            else:
+                self.word_dict[word] = 1
 
     # Returns True if the first word goes after the second word. False otherwise
     def lower_alphabetic(self, first, second):
@@ -52,24 +55,31 @@ class MaxHeap:
 
         if parent < curr or ((parent == curr) and (self.lower_alphabetic(self.tree[i], self.tree[parent_index]))):
             self.tree[i], self.tree[parent_index] = self.tree[parent_index], self.tree[i]
-        else:
-            # Checking between siblings
-            if i % 2 == 0:
-                left = self.tree[i-1]
-                right = self.tree[i]
-                if self.word_dict[right] > self.word_dict[left] or ((self.word_dict[left] == self.word_dict[right]) and (self.lower_alphabetic(self.tree[i], self.tree[i-1]))):
-                    self.tree[i], self.tree[i-1] = self.tree[i-1], self.tree[i]
+
+        if len(self.tree) % 2 == 1 and len(self.tree) > 1:
+            left_child = self.left_child(parent_index)
+            right_child = self.right_child(parent_index)
+            left = self.word_dict[left_child]
+            right = self.word_dict[right_child]
+            if right > left or ((right == left) and (self.lower_alphabetic(right_child, left_child))):
+                left = 2 * parent_index + 1
+                right = 2 * parent_index + 2
+                self.tree[left], self.tree[right] = self.tree[right], self.tree[left]
+
+        self.print_list()
         self.percolate_up(parent_index)
 
     def print_list(self):
         for i in range(0, len(self.tree)):
             print(self.tree[i], ':', self.word_dict[self.tree[i]])
+        print()
 
 
 def main():
     li = ['sweet', 'dog', 'umbrella', 'sweet', 'hot', 'hat', 'paper', 'gadget', 'paper', 'paper', 'hot', 'dog', 'hat']
     heap = MaxHeap()
     heap.insert(li)
+    print('======')
     heap.print_list()
 
 

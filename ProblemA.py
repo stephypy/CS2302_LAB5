@@ -19,9 +19,9 @@ class DLL:
         if self.head is None:
             self.head = self.tail = new_node
         else:
-            self.tail.next = new_node
-            new_node.prev = self.tail
-            self.tail = new_node
+            self.head.prev = new_node
+            new_node.next = self.head
+            self.head = new_node
         self.size += 1
 
     def delete_last(self):
@@ -56,9 +56,35 @@ class LRU:
             lru = self.cache.tail.val
             self.cache.delete_last()
             self.cache_values.pop(lru)
+            self.cache_values[key] = value
+            self.cache.insert(key)
 
     def size(self):
         return self.cache.size
 
     def max_capacity(self):
         return self.maximum
+
+    def print_lru(self):
+        curr = self.cache.head
+        while curr is not None:
+            print('key: ', curr.val, 'val: ', self.get(curr.val))
+            curr = curr.next
+
+
+def main():
+    lru = LRU(5)
+    for i in range(1, 5):
+        lru.put(i, i*2)
+        lru.print_lru()
+        print('')
+    lru.print_lru()
+    lru.put(5, 10)
+    print('')
+    lru.print_lru()
+    lru.put(6, 12)
+    print('')
+    lru.print_lru()
+
+
+main()

@@ -4,4 +4,4 @@
 # Instructor: Diego Aguirre </br>
 # TA: Gerardo Barraza </br>
 # Date of last modification: November 19, 2019 </br>
-# Purpose: Compare the perfomance between AVL, Red-black, and B-trees
+# Purpose: Implement a LRU cache with constant running time (part A) and implement a MaxHeap to print the words with the most occurennces from a list (part B)

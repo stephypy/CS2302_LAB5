@@ -11,7 +11,7 @@ class DLL:
         self.tail = None
         self.size = 0
 
-    # Wil always insert at the tail
+    # Wil always insert at the head
     def insert(self, val):
         if val is None:
             raise Exception('Invalid new value')

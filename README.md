@@ -1,1 +1,7 @@
-# CS2302_LAB5
+# CS 2302 Data Structures: MW 1:30PM - 2:50PM </br>
+# Author: Stephanie Galvan </br>
+# Assignment: Lab 5  </br>
+# Instructor: Diego Aguirre </br>
+# TA: Gerardo Barraza </br>
+# Date of last modification: November 19, 2019 </br>
+# Purpose: Compare the perfomance between AVL, Red-black, and B-trees
